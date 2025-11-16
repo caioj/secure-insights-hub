@@ -1,7 +1,7 @@
 import { Search, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { SearchDialog } from "@/components/SearchDialog";
 
 const Header = () => {
   return (
@@ -20,14 +20,7 @@ const Header = () => {
 
         {/* Search */}
         <div className="flex-1 max-w-md mx-8 hidden md:block">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Buscar vulnerabilidades, práticas, checklists..."
-              className="w-full pl-9 bg-muted/50"
-            />
-          </div>
+          <SearchDialog />
         </div>
 
         {/* Navigation */}
@@ -40,6 +33,9 @@ const Header = () => {
           </Link>
           <Link to="/checklists" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hidden lg:block">
             Checklists
+          </Link>
+          <Link to="/templates" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hidden xl:block">
+            Templates
           </Link>
           <Button variant="default" size="sm" className="bg-secondary hover:bg-secondary-hover">
             Sign In
