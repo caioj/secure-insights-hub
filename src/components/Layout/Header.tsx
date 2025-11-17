@@ -1,9 +1,19 @@
-import { Search, Shield } from "lucide-react";
+import { Search, Shield, LogOut, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SearchDialog } from "@/components/SearchDialog";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
+  const { user, signOut } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -34,12 +44,38 @@ const Header = () => {
           <Link to="/checklists" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hidden lg:block">
             Checklists
           </Link>
+          {user && (
+            <Link to="/training" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hidden lg:block">
+              Treinamento
+            </Link>
+          )}
           <Link to="/templates" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hidden xl:block">
             Templates
           </Link>
-          <Button variant="default" size="sm" className="bg-secondary hover:bg-secondary-hover">
-            Sign In
-          </Button>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <User className="w-4 h-4 mr-2" />
+                  Perfil
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link to="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => signOut()}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="default" size="sm" className="bg-secondary hover:bg-secondary-hover" asChild>
+              <Link to="/auth">Sign In</Link>
+            </Button>
+          )}
         </nav>
       </div>
     </header>
